@@ -1,11 +1,11 @@
 // Configuração Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyBxvzIqZPXNZ4T7RVb9Y0mW6C3qJ8K4dF2",
-    authDomain: "wedding-gifts-demo.firebaseapp.com",
-    projectId: "wedding-gifts-demo",
-    storageBucket: "wedding-gifts-demo.appspot.com",
-    messagingSenderId: "987654321098",
-    appId: "1:987654321098:web:fedcba0987654321abcdef"
+    apiKey: "AIzaSyB0tGZL1LW9WsP6KlxdgUGMawpzk-sL23I",
+    authDomain: "maquina-99d68.firebaseapp.com",
+    projectId: "maquina-99d68",
+    storageBucket: "maquina-99d68.firebasestorage.app",
+    messagingSenderId: "448811342700",
+    appId: "1:448811342700:web:e9cb6e279257a2f1563149"
 };
 
 // Initialize Firebase
