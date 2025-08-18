@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casamento Cristiano & Luana - Lista de Presentes</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="hearts-decoration">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1 class="couple-names">Cristiano & Luana</h1>
+            <p class="wedding-date">Celebrando nosso amor</p>
+            <div class="hearts-decoration">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+        </header>
+
+        <!-- Admin Panel -->
+        <div class="admin-panel">
+            <button id="toggleAdmin" class="admin-toggle">
+                <i class="fas fa-cog"></i> Gerenciar Presentes
+            </button>
+            
+            <div id="adminForm" class="admin-form hidden">
+                <h3><i class="fas fa-plus-circle"></i> Adicionar Novo Presente</h3>
+                <div class="form-group">
+                    <input type="text" id="giftName" placeholder="Nome do presente" required>
+                </div>
+                <button id="addGift" class="btn-primary">
+                    <i class="fas fa-gift"></i> Adicionar Presente
+                </button>
+                <button onclick="clearAllData()" class="btn-secondary" style="margin-top: 10px;">
+                    <i class="fas fa-trash"></i> Limpar Todos os Dados
+                </button>
+            </div>
+        </div>
+
+        <!-- Gift List -->
+        <div class="gift-list-container">
+            <h2 class="section-title">
+                <i class="fas fa-gifts"></i> Lista de Presentes
+            </h2>
+            <p class="section-subtitle">Escolha um presente especial para os noivos!</p>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-list"></i> Todos
+                </button>
+                <button class="filter-btn" data-filter="available">
+                    <i class="fas fa-heart"></i> Disponíveis
+                </button>
+                <button class="filter-btn" data-filter="reserved">
+                    <i class="fas fa-check-circle"></i> Reservados
+                </button>
+            </div>
+
+            <div id="giftList" class="gift-grid">
+                <!-- Os presentes serão adicionados aqui dinamicamente -->
+            </div>
+
+            <div id="emptyMessage" class="empty-message">
+                <i class="fas fa-gift"></i>
+                <p>Ainda não há presentes cadastrados na lista.</p>
+                <p>Use o botão "Gerenciar Presentes" para adicionar itens!</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-hearts">
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-heart"></i>
+            </div>
+            <p>Com amor, Cristiano & Luana</p>
+            <p class="footer-date">2024</p>
+        </footer>
+    </div>
+
+    <!-- Modal for gift reservation -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3><i class="fas fa-heart"></i> Reservar Presente</h3>
+            <p id="modalGiftName"></p>
+            <div class="form-group">
+                <input type="text" id="guestName" placeholder="Seu nome completo" required>
+            </div>
+            <div class="modal-buttons">
+                <button id="confirmReservation" class="btn-primary">
+                    <i class="fas fa-check"></i> Confirmar Reserva
+                </button>
+                <button id="cancelReservation" class="btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=2"></script>
+</body>
+</html>
