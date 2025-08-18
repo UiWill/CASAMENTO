@@ -4,7 +4,11 @@
       "Bash(python:*)",
       "Bash(start index.html)",
       "Bash(git init:*)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"🎉 Site de casamento Cristiano & Luana - Lista de Presentes\n\n✨ Funcionalidades:\n- Cadastro de presentes (apenas título)\n- Sistema de reserva com nome\n- Filtros (Todos/Disponíveis/Reservados) \n- Botão de remover presentes\n- Dados salvos no localStorage\n- Design responsivo e elegante\n- Interface romântica com animações\n\n🎨 Visual:\n- Tema romântico (rosa, dourado, coral)\n- Animações de corações\n- Responsivo para mobile/desktop\n- Google Fonts elegantes\n\n🛠️ Funcional para produção:\n- Sem dados de exemplo\n- Sistema de persistência\n- Confirmações de segurança\n\n🤖 Generated with [Claude Code](https://claude.ai/code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\")",
+      "Bash(git remote add origin https://github.com/UiWill/CASAMENTO.git)",
+      "Bash(git branch:*)",
+      "Bash(git push -u origin main)"
     ],
     "deny": [],
     "ask": []
