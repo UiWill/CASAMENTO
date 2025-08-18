@@ -1,10 +1,25 @@
+// Configuração Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBxvzIqZPXNZ4T7RVb9Y0mW6C3qJ8K4dF2",
+    authDomain: "wedding-gifts-demo.firebaseapp.com",
+    projectId: "wedding-gifts-demo",
+    storageBucket: "wedding-gifts-demo.appspot.com",
+    messagingSenderId: "987654321098",
+    appId: "1:987654321098:web:fedcba0987654321abcdef"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 // Sistema de Lista de Presentes - Casamento Cristiano & Luana
 class GiftListManager {
     constructor() {
-        this.gifts = JSON.parse(localStorage.getItem('weddingGifts')) || [];
+        this.gifts = [];
         this.currentFilter = 'all';
+        this.db = db;
         this.initializeEventListeners();
-        this.renderGiftList();
+        this.loadGiftsFromFirebase();
     }
 
     initializeEventListeners() {
@@ -70,18 +85,23 @@ class GiftListManager {
         }
 
         const newGift = {
-            id: Date.now().toString(),
             name: name,
             reserved: false,
             reservedBy: '',
-            reservedAt: null
+            reservedAt: null,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         };
 
-        this.gifts.push(newGift);
-        this.saveGifts();
-        this.renderGiftList();
-        this.clearForm();
-        this.showAlert('Presente adicionado com sucesso!', 'success');
+        // Add to Firebase
+        this.db.collection('gifts').add(newGift)
+            .then((docRef) => {
+                this.clearForm();
+                this.showAlert('Presente adicionado com sucesso!', 'success');
+            })
+            .catch((error) => {
+                console.error('Erro ao adicionar presente:', error);
+                this.showAlert('Erro ao adicionar presente. Tente novamente.', 'error');
+            });
     }
 
     clearForm() {
@@ -211,16 +231,20 @@ class GiftListManager {
             return;
         }
 
-        // Reserve the gift
-        gift.reserved = true;
-        gift.reservedBy = guestName;
-        gift.reservedAt = new Date().toISOString();
-
-        this.saveGifts();
-        this.renderGiftList();
-        this.closeModal();
-        
-        this.showAlert(`Obrigado, ${guestName}! O presente "${gift.name}" foi reservado com sucesso! 💕`, 'success');
+        // Reserve the gift in Firebase
+        this.db.collection('gifts').doc(giftId).update({
+            reserved: true,
+            reservedBy: guestName,
+            reservedAt: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            this.closeModal();
+            this.showAlert(`Obrigado, ${guestName}! O presente "${gift.name}" foi reservado com sucesso! 💕`, 'success');
+        })
+        .catch((error) => {
+            console.error('Erro ao reservar presente:', error);
+            this.showAlert('Erro ao reservar presente. Tente novamente.', 'error');
+        });
     }
 
     removeGift(giftId) {
@@ -231,15 +255,33 @@ class GiftListManager {
         }
 
         if (confirm(`Tem certeza que deseja remover o presente "${gift.name}"?`)) {
-            this.gifts = this.gifts.filter(g => g.id !== giftId);
-            this.saveGifts();
-            this.renderGiftList();
-            this.showAlert('Presente removido com sucesso!', 'success');
+            this.db.collection('gifts').doc(giftId).delete()
+                .then(() => {
+                    this.showAlert('Presente removido com sucesso!', 'success');
+                })
+                .catch((error) => {
+                    console.error('Erro ao remover presente:', error);
+                    this.showAlert('Erro ao remover presente. Tente novamente.', 'error');
+                });
         }
     }
 
-    saveGifts() {
-        localStorage.setItem('weddingGifts', JSON.stringify(this.gifts));
+    loadGiftsFromFirebase() {
+        // Listen for real-time updates
+        this.db.collection('gifts').orderBy('createdAt', 'desc')
+            .onSnapshot((querySnapshot) => {
+                this.gifts = [];
+                querySnapshot.forEach((doc) => {
+                    this.gifts.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                this.renderGiftList();
+            }, (error) => {
+                console.error('Erro ao carregar presentes:', error);
+                this.showAlert('Erro ao carregar presentes do servidor.', 'error');
+            });
     }
 
     showAlert(message, type = 'info') {
@@ -332,13 +374,25 @@ class GiftListManager {
 document.addEventListener('DOMContentLoaded', () => {
     window.giftManager = new GiftListManager();
     
-    // Clear any existing sample data on first load
+    // Clear all data from Firebase
     window.clearAllData = () => {
         if (confirm('Tem certeza que deseja limpar TODOS os dados? Esta ação não pode ser desfeita!')) {
-            localStorage.removeItem('weddingGifts');
-            window.giftManager.gifts = [];
-            window.giftManager.renderGiftList();
-            window.giftManager.showAlert('Todos os dados foram limpos!', 'success');
+            const batch = window.giftManager.db.batch();
+            
+            window.giftManager.db.collection('gifts').get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    return batch.commit();
+                })
+                .then(() => {
+                    window.giftManager.showAlert('Todos os dados foram limpos!', 'success');
+                })
+                .catch((error) => {
+                    console.error('Erro ao limpar dados:', error);
+                    window.giftManager.showAlert('Erro ao limpar dados. Tente novamente.', 'error');
+                });
         }
     };
 });
