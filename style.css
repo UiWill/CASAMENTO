@@ -442,6 +442,46 @@ body {
     margin-top: 25px;
 }
 
+/* Mensagem dos Noivos */
+.couple-message {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(253, 121, 168, 0.1));
+    border-radius: 20px;
+    padding: 40px 30px;
+    margin: 40px 0 30px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(253, 121, 168, 0.2);
+}
+
+.message-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.message-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #2d3436;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.message-signature {
+    font-size: 1.2rem;
+    color: #e84393;
+    margin-top: 30px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.message-signature strong {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2d3436;
+}
+
 /* Footer */
 .footer {
     text-align: center;
@@ -501,6 +541,23 @@ body {
     
     .container {
         padding: 15px;
+    }
+    
+    .couple-message {
+        padding: 30px 20px;
+        margin: 30px 0 20px 0;
+    }
+    
+    .message-text {
+        font-size: 1rem;
+    }
+    
+    .message-signature {
+        font-size: 1.1rem;
+    }
+    
+    .message-signature strong {
+        font-size: 1.3rem;
     }
 }
 
